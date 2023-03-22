@@ -7,20 +7,29 @@ using System.Reflection;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CarsController : ControllerBase
     {
-        private readonly CarRepository _carRepository;
+        private readonly ICarRepository _carRepository;
+        private readonly ICarRepository _carRepository1;
 
-        public CarsController(CarRepository carRepository)
+        public CarsController(ICarRepository carRepository)
         {
             _carRepository = carRepository;
         }
-
+        
         [HttpGet(Name = "GetCars")]
         public ActionResult<IEnumerable<Car>> GetAllCars()
         {
-            return _carRepository.GetCars();
+            try
+            {
+                return _carRepository.GetCars();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ConsoleAppConnectDb.Models;
 using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using System.Text;
 
 namespace ConsoleAppConnectDb.Repositories
 {
-    public interface IMyDatabase
+    public interface ICarRepository
     {
         List<Car> GetCars();
     }
-    public class CarRepository : IMyDatabase
+    public class CarRepository : ICarRepository
     {
         private string _connectionString;
         public CarRepository()
@@ -22,7 +23,7 @@ namespace ConsoleAppConnectDb.Repositories
             //                    so, lookup to see what your computer name is
             //                    or, you can google for how to set Data Source for a local db
             //  Leave everything else as is.
-            _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=AutoCare;Integrated Security=True";
+            _connectionString = "Data Source=carrepositorydbserver.database.windows.net,1433;User Id=user;Password=@$TTckol2008;Initial Catalog=AutoCare;Integrated Security=True;Trusted_Connection=false;MultipleActiveResultSets=true";
         }
         public List<Car> GetCars()
         {
@@ -52,8 +53,8 @@ namespace ConsoleAppConnectDb.Repositories
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                throw;
             }
-            return new List<Car>();
         }
     }
 }

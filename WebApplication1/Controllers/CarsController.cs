@@ -11,7 +11,6 @@ namespace WebApplication1.Controllers
     public class CarsController : ControllerBase
     {
         private readonly ICarRepository _carRepository;
-        private readonly ICarRepository _carRepository1;
 
         public CarsController(ICarRepository carRepository)
         {
